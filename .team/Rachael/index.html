@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Project 3 by Benny, Luis, Michelle, and Hannah</title>
+    <link rel="stylesheet" href="formatting.css">
+
+    <!-- scripts for javascript portion: -->
+    <!-- Benny's js code here -->
+    <script type="module" src="../Benny/script.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htl@0.3.1/dist/htl.min.js"></script>
+    <script src="../Benny/d3.js"></script>
+    <script src="../Benny/plot.js"></script>
+
+    <!-- styling section -->
+    <style>
+        .title-container {
+            text-align: center;
+        }
+    </style>
+
+    <!-- navigation bar styling -->
+        <style>
+            .navbar {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                background-color: #333;
+                overflow: hidden;
+                position: fixed;
+            width: 100%;
+            top: 0;
+            }
+            .navbar li {
+            float: left;
+        }
+        .navbar li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .navbar li a.active {
+            background-color: #4CAF50;
+        }
+    </style>
+
+    <!-- dropdown and map styling -->
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 25%;
+        }
+        .dropdown {
+            margin-right: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+<!-- navigation bar code -->
+<div>
+<ul class="navbar">
+    <li><a class="active" href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div class="title-container">
+    <h1>Welcome to Project 3</h1>
+    <h2>Examining Population, Employment, and Education by county in the United States</h2>
+</div>
+
+<div id="map"> <h1> map goes here</h1></div>
+
+<div class="container">
+    <div class="dropdown">
+        <select id="selCategory">
+            <option value="Unemployed">Unemployed</option>
+            <option value="Civilian_labor_force">Labor Force</option>
+            <option value="Employed">Employed</option>
+            <option value="POP_ESTIMATE">Population</option>
+            <option value="BIRTHS">Births</option>
+            <option value="DEATHS">Deaths</option>
+            <option value="NoHSB">No HS Diploma</option>
+            <option value="HSB">Only Highschool</option>
+            <option value="CAD">Some College or Associates</option>
+            <option value="BD">Bachelors or Higher</option>
+        </select>
+        <select id="selYear">
+            <option value="_2020">2020</option>
+            <option value="_2021">2021</option>
+            <option value="_2022">2022</option>
+        </select>
+    </div>
+</div>
+
+<div id="bar"><h1> bar goes here</h1></div>
+</div>
+
+<div id="scatter"><h1> scatter goes here</h1></div>
+</div>
+
+</body>
+
+
+
+</html>

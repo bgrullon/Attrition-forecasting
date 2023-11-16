@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Project 3 by Benny, Luis, Michelle, and Hannah</title>
+    <link rel="stylesheet" href="formatting.css">
+
+    <!-- scripts for javascript portion: -->
+    <!-- Benny's js code here -->
+    <script type="module" src="../Benny/script.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htl@0.3.1/dist/htl.min.js"></script>
+    <script src="../Benny/d3.js"></script>
+    <script src="../Benny/plot.js"></script>
+
+</head>
+
+<body>
+<!-- navigation bar code -->
+<div>
+<ul class="navbar">
+    <li><a class="active" href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+<!-- title section -->
+<div class="title-container">
+    <h1>Welcome to Project 3</h1>
+    <h2>Examining Population, Employment, and Education by county in the United States</h2>
+</div>
+
+<!-- map section -->
+<div class="map-container" id="map"></div>
+
+<!-- dropdown section -->
+<div class="container">
+    <div class="dropdown">
+        <select id="selCategory">
+            <option value="Unemployed">Unemployed</option>
+            <option value="Civilian_labor_force">Labor Force</option>
+            <option value="Employed">Employed</option>
+            <option value="POP_ESTIMATE">Population</option>
+            <option value="BIRTHS">Births</option>
+            <option value="DEATHS">Deaths</option>
+            <option value="NoHSB">No HS Diploma</option>
+            <option value="HSB">Only Highschool</option>
+            <option value="CAD">Some College or Associates</option>
+            <option value="BD">Bachelors or Higher</option>
+        </select>
+        <select id="selYear">
+            <option value="_2020">2020</option>
+            <option value="_2021">2021</option>
+            <option value="_2022">2022</option>
+        </select>
+    </div>
+</div>
+
+<!-- bar and scatter plot section -->
+<div class="new-container">
+    <div id="bar"><h1> bar goes here</h1></div>
+    <div id="scatter"><h1> scatter goes here</h1></div>
+</div>
+
+</body>
+
+</html>
