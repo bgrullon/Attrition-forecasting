@@ -2,7 +2,7 @@ import pandas as pd
 import sqlite3
 
 # Read the CSV file into a DataFrame
-df = pd.read_csv('C:\\Users\\kingl\\Downloads\\Attrition-forecasting\\data\\dataset.csv')
+df = pd.read_csv('C:\\Users\\benny\\Github\\Attrition-forecasting\\data\\customer_churn.csv')
 
 # Create a SQLite database and a connection to it
 conn = sqlite3.connect('proj4data.sqlite')
