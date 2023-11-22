@@ -10,33 +10,6 @@ body {
     margin-top: 80px;
 }
 
-
-/* navigation bar styling */
-.navbar {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  background-color: white;
-  overflow: hidden;
-  position: fixed;
-width: 100%;
-top: 0;
-}
-.navbar li {
-float: left;
-}
-.navbar li a {
-display: block;
-color: #003300;
-text-align: center;
-padding: 14px 16px;
-text-decoration: none;
-font-weight: bold;
-}
-.navbar li a.active {
-background-color: grey;
-}
-
 /* title styling */
 .title-container {
   text-align: center;
