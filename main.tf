@@ -18,17 +18,18 @@ variable "aws_secret_key" {
 }
 
 provider "aws" {
-  region = "us-east-1"
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
+  region      = "us-east-1"
+  access_key  = var.aws_access_key
+  secret_key  = var.aws_secret_key
 }
 
-# Random Password / Suffix
-
+# Create a random password that includes a number
 resource "random_password" "password" {
   length           = 16
   special          = true
-  override_special = "!$%&*()-_=+[]{}<>:?"
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+  numeric          = true
+  min_numeric      = 2
 }
 
 resource "random_string" "unique_suffix" {
@@ -38,6 +39,61 @@ resource "random_string" "unique_suffix" {
 
 # Resources
 
+# AWS S3 Bucket
+resource "aws_s3_bucket" "redshift_bucket" {
+  bucket = "redshift-bucket-project-4"
+  tags = {
+    Name        = "Redshift Bucket"
+    Environment = "Dev"
+  }
+}
+
+# IAM Role for Redshift
+resource "aws_iam_role" "redshift_iam_role" {
+  name = "redshift-s3-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "redshift.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+# IAM Policy for Redshift to Read from S3
+resource "aws_iam_policy" "redshift_s3_policy" {
+  name        = "redshift-s3-policy"
+  description = "IAM policy for Redshift to read from S3"
+  
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = "s3:GetObject",
+        Resource = "${aws_s3_bucket.redshift_bucket.arn}/*"
+      },
+      {
+        Effect   = "Allow",
+        Action   = "s3:ListBucket",
+        Resource = aws_s3_bucket.redshift_bucket.arn
+      }
+    ]
+  })
+}
+
+# Attach the IAM Policy to the IAM Role
+resource "aws_iam_role_policy_attachment" "redshift_s3_attachment" {
+  policy_arn = aws_iam_policy.redshift_s3_policy.arn
+  role       = aws_iam_role.redshift_iam_role.name
+}
+
+# Redshift Cluster
 resource "aws_redshift_cluster" "redshift_cluster" {
   cluster_identifier = "tf-redshift-cluster"
   database_name      = "mydb"
@@ -47,6 +103,9 @@ resource "aws_redshift_cluster" "redshift_cluster" {
   cluster_type       = "single-node"
 
   skip_final_snapshot = true
+
+  # Associate the IAM Role with the Redshift Cluster
+  iam_roles = [aws_iam_role.redshift_iam_role.arn]
 }
 
 resource "aws_secretsmanager_secret" "redshift_connection" {
