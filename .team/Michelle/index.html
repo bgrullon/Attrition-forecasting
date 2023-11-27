@@ -8,7 +8,6 @@
 
     <!-- scripts for javascript portion: -->
     <script type="module" src="../Benny/script.js"></script>
-    <script src="https://unpkg.com/topojson@3"></script>
     <script src="https://cdn.jsdelivr.net/npm/htl@0.3.1/dist/htl.min.js"></script>
     <script src="../Benny/d3.js"></script>
     <script src="../Benny/plot.js"></script>
@@ -19,40 +18,47 @@
 
 <!-- title section -->
 <div class="title-container">
-    <h1>Welcome to Project 4</h1>
-    <h2>Forecasting and Analyzing Telecom Customer Attrition</h2>
+    <h1>What the Buddha Telecom Company</h1>
+    <h2>Forecasting and Analyzing Customer Attrition</h2>
 </div>
 
 <!-- map section -->
 <div class="map-container" id="map"></div>
 
-<!-- dropdown section -->
-<!-- <div class="container">
-    <div class="dropdown">
-        <select id="selCategory">
-            <option value="Unemployed">Unemployed</option>
-            <option value="Civilian_labor_force">Labor Force</option>
-            <option value="Employed">Employed</option>
-            <option value="POP_ESTIMATE">Population</option>
-            <option value="BIRTHS">Births</option>
-            <option value="DEATHS">Deaths</option>
-            <option value="NoHSB">No HS Diploma</option>
-            <option value="HSB">Only Highschool</option>
-            <option value="CAD">Some College or Associates</option>
-            <option value="BD">Bachelors or Higher</option>
-        </select>
-        <select id="selYear">
-            <option value="_2020">2020</option>
-            <option value="_2021">2021</option>
-            <option value="_2022">2022</option>
-        </select>
-    </div>
-</div> -->
-
 <!-- bar and scatter plot section -->
 <div class="new-container">
-    <div id="bar"><h1> bar goes here</h1></div>
-    <div id="scatter"><h1> scatter goes here</h1></div>
+    <div id="plot1"><h1>Plot 1 here</h1></div>
+    <div id="plot2"><h1>Plot 2 here</h1></div>
+    <div id="plot3"><h1>Plot 3 here</h1></div>
+    <div id="plot4"><h1>Plot 4 here</h1></div>
+</div>
+
+<!-- table section -->
+<div class="table-container">
+    <table border="1">
+        <caption>Customer Attrition Snapshot</caption>
+        <thead>
+            <tr>
+                <th>Total # of Customers</th>
+                <th>Attrition Rate (%)</th>
+                <th>Predicted Attrition Rate (%)</th>
+                <th>Total Revenue</th>
+                <th>Revenue Change (%)</th>
+                <th>Predicted Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>A bunch</td>
+                <td>30%</td>
+                <td>33%</td>
+                <td>$1M </td>
+                <td>.0005%</td>
+                <td>$5M</td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
 </div>
 
 </body>
