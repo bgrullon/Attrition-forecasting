@@ -2,25 +2,24 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.0"
+      version = "~> 5.0"
     }
   }
 }
 
 # Configure the AWS Provider
-
-variable "aws_access_key" {
+variable "aws_access_key_id" {
   type = string
 }
 
-variable "aws_secret_key" {
+variable "aws_secret_access_key" {
   type = string
 }
 
 provider "aws" {
   region      = "us-east-1"
-  access_key  = var.aws_access_key
-  secret_key  = var.aws_secret_key
+  access_key  = var.aws_access_key_id
+  secret_key  = var.aws_secret_access_key
 }
 
 # Create a random password that includes a number

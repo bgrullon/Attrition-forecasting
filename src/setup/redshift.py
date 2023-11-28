@@ -85,25 +85,3 @@ def InsertIntoRedshift():
     # Close the connection
     cursor.close()
     conn.close()
-
-
-# function to query the Redshift table and return Customer IDs, Total Charges, and Churn
-def QueryRedshift_rev():
-    # Create a connection using psycopg2
-    conn = psycopg2.connect(connection_string)
-    cursor = conn.cursor()
-
-    # Query the Redshift table
-    query = f"""
-    SELECT customer_ID, total_charges, churn
-    FROM customers;
-    """
-
-    cursor.execute(query)
-    results = cursor.fetchall()
-
-    # Close the connection
-    cursor.close()
-    conn.close()
-
-    return results
