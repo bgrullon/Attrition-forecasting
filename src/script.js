@@ -1,17 +1,138 @@
+// update plot via drop down
+const updatePlot = () => {
+  const dropdownCat = d3.select("#contract-dropdown");
+  const category = dropdownCat.property("value");
+  plotData(category)
+}
+
+// listeners for dropdown
+d3.selectAll("#contract-dropdown").on("change", updatePlot);
+
+// Function to loop through the list and create a new list of objects
+function createServiceChurnList(data) {
+  const serviceChurnList = [];
+
+  // Function to categorize service
+  function categorizeService(service) {
+      if (service === 'DSL' || service === 'Fiber optic' || service === 'Yes') {
+          return 'Yes';
+      }
+      return 'No';
+  }
+
+  // Loop through each customer object
+  data.forEach(customer => {
+      // Loop through service-related properties
+      for (const [service, churn] of Object.entries(customer)) {
+          // Check if the property is a service-related property (e.g., online_security, device_protection)
+          if (service.includes('service') || service.includes('protection') || service.includes('support') || service.includes('streaming')) {
+              // Create a key using the service name
+              const key = service.replace(/_/g, ' ');
+
+              // Check if the service is related to Internet
+              const serviceValue = categorizeService(churn);
+
+              // Find the corresponding item in the serviceChurnList
+              const existingItem = serviceChurnList.find(item => item.service === key && item.churn === serviceValue);
+
+              if (existingItem) {
+                  // If the item already exists, increment the amount
+                  existingItem.amount += 1;
+              } else {
+                  // If the item does not exist, create a new item
+                  const newItem = {
+                      service: key,
+                      churn: serviceValue,
+                      amount: 1
+                  };
+                  serviceChurnList.push(newItem);
+              }
+          }
+      }
+  });
+
+  return serviceChurnList;
+}
+
+// function for second plot (payment method)
+function createPaymentChurnList(data) {
+  const results = [];
+
+  // Define the payment methods
+  const paymentMethods = [
+    "Mailed check",
+    "Electronic check",
+    "Credit card (automatic)",
+    "Bank transfer (automatic)"
+  ];
+  
+  // Loop through each payment method
+  for (const paymentMethod of paymentMethods) {
+    // Count the number of churns (Yes and No) for the current payment method
+    const churnYesCount = data.filter(item => item.payment_method === paymentMethod && item.churn === "Yes").length;
+    const churnNoCount = data.filter(item => item.payment_method === paymentMethod && item.churn === "No").length;
+  
+    // Create objects for Yes and No churns and push them to the result list
+    results.push({ payment: paymentMethod, churn: "Yes", amount: churnYesCount });
+    results.push({ payment: paymentMethod, churn: "No", amount: churnNoCount });
+  }
+
+  return results;
+  
+}
+
+// function for third plot (service)
+function generateChurnData(customerList) {
+  // Create an object to store data for each year and churn status
+  const churnData = {};
+
+  // Iterate through the customer list
+  customerList.forEach(customer => {
+    // Calculate the year based on tenure
+    const year = `Year ${Math.floor((customer.tenure - 1) / 12) + 1}`;
+
+    // Update churn data
+    if (!churnData[year]) {
+      churnData[year] = {
+        Yes: 0,
+        No: 0,
+      };
+    }
+
+    churnData[year][customer.churn]++;
+  });
+
+  // Convert object to the desired array format and order by year
+  const resultArray = [];
+  Object.keys(churnData).sort().forEach(year => {
+    for (const churnStatus in churnData[year]) {
+      resultArray.push({
+        year,
+        churn: churnStatus,
+        amount: churnData[year][churnStatus],
+      });
+    }
+  });
+
+  return resultArray;
+}
 
 
 // main function containing all three plots
-const plotData = async () => {
+const plotData = async (category = "all") => {
   // fetch data from flask server
   const data = await fetch('http://127.0.0.1:5000/');
+  const gendata = await fetch('http://127.0.0.1:5000/generate');
+
 
   // convert data to json
   const jsonData = await data.json();
+  const jsonGenData = await gendata.json();
 
-  const plot1Data = []
+  var dataDictArr = []
 
   jsonData.forEach((item) => {
-      plot1Data.push({
+      dataDictArr.push({
         'customer_ID': item[0],
         'gender': item[1],
         'senior_citizen': item[2],
@@ -36,115 +157,14 @@ const plotData = async () => {
       })
   })
 
-  console.log(plot1Data)
+  // filter data and return only the category selected
+  if (category != 'all') { dataDictArr = dataDictArr.filter(item => item.contract === category) }
 
-  // Function to loop through the list and create a new list of objects
-  function createServiceChurnList(data) {
-    const serviceChurnList = [];
 
-    // Function to categorize service
-    function categorizeService(service) {
-        if (service === 'DSL' || service === 'Fiber optic' || service === 'Yes') {
-            return 'Yes';
-        }
-        return 'No';
-    }
-
-    // Loop through each customer object
-    data.forEach(customer => {
-        // Loop through service-related properties
-        for (const [service, churn] of Object.entries(customer)) {
-            // Check if the property is a service-related property (e.g., online_security, device_protection)
-            if (service.includes('service') || service.includes('protection') || service.includes('support') || service.includes('streaming')) {
-                // Create a key using the service name
-                const key = service.replace(/_/g, ' ');
-
-                // Check if the service is related to Internet
-                const serviceValue = categorizeService(churn);
-
-                // Find the corresponding item in the serviceChurnList
-                const existingItem = serviceChurnList.find(item => item.service === key && item.churn === serviceValue);
-
-                if (existingItem) {
-                    // If the item already exists, increment the amount
-                    existingItem.amount += 1;
-                } else {
-                    // If the item does not exist, create a new item
-                    const newItem = {
-                        service: key,
-                        churn: serviceValue,
-                        amount: 1
-                    };
-                    serviceChurnList.push(newItem);
-                }
-            }
-        }
-    });
-
-    return serviceChurnList;
-  }
-
-  const plot2 = [];
-
-  // Define the payment methods
-  const paymentMethods = [
-    "Mailed check",
-    "Electronic check",
-    "Credit card (automatic)",
-    "Bank transfer (automatic)"
-  ];
-
-  // Loop through each payment method
-  for (const paymentMethod of paymentMethods) {
-    // Count the number of churns (Yes and No) for the current payment method
-    const churnYesCount = plot1Data.filter(item => item.payment_method === paymentMethod && item.churn === "Yes").length;
-    const churnNoCount = plot1Data.filter(item => item.payment_method === paymentMethod && item.churn === "No").length;
-
-    // Create objects for Yes and No churns and push them to the result list
-    plot2.push({ payment: paymentMethod, churn: "Yes", amount: churnYesCount });
-    plot2.push({ payment: paymentMethod, churn: "No", amount: churnNoCount });
-  }
-
-  function generateChurnData(customerList) {
-    // Create an object to store data for each year and churn status
-    const churnData = {};
-  
-    // Iterate through the customer list
-    customerList.forEach(customer => {
-      // Calculate the year based on tenure
-      const year = `Year ${Math.floor((customer.tenure - 1) / 12) + 1}`;
-  
-      // Update churn data
-      if (!churnData[year]) {
-        churnData[year] = {
-          Yes: 0,
-          No: 0,
-        };
-      }
-  
-      churnData[year][customer.churn]++;
-    });
-  
-    // Convert object to the desired array format and order by year
-    const resultArray = [];
-    Object.keys(churnData).sort().forEach(year => {
-      for (const churnStatus in churnData[year]) {
-        resultArray.push({
-          year,
-          churn: churnStatus,
-          amount: churnData[year][churnStatus],
-        });
-      }
-    });
-  
-    return resultArray;
-  }
-
-  const plot3 = createServiceChurnList(plot1Data);
-  const plot4 = generateChurnData(plot1Data);
-
-    // Output the result list
-    console.log(plot4);
+  // get data for each plot
+  const plot2 = createPaymentChurnList(dataDictArr);
+  const plot3 = createServiceChurnList(dataDictArr);
+  const plot4 = generateChurnData(dataDictArr);
 
   ////////////////////////////////
   //        PLOTS
@@ -156,7 +176,7 @@ const plotData = async () => {
     y: {grid: true},
     color: {legend: true},
     marks: [
-      Plot.barY(plot1Data, Plot.groupX({y2: "count"}, {x: "churn", fx: "gender", fill: "churn"})),
+      Plot.barY(dataDictArr, Plot.groupX({y2: "count"}, {x: "churn", fx: "gender", fill: "churn"})),
       Plot.ruleY([0])
     ]
   })
@@ -230,14 +250,26 @@ const plotData = async () => {
   //        Table
   ////////////////////////////////
 
-  var totalCustomers = plot1Data.length;
+  var totalCustomers = dataDictArr.length;
 
   // Calculate the percentage of customers with churn value "No"
-  var churnNoCount = plot1Data.filter(customer => customer.churn === 'No').length;
+  var churnNoCount = dataDictArr.filter(customer => customer.churn === 'No').length;
   var churnNoPercentage = ((churnNoCount / totalCustomers) * 100).toFixed(2) + '%';
 
+  // calculate the percentage of customers with churn value "No" from the generated data combined with the original data
+  var churnNoCountGen = jsonGenData.filter(customer => customer.churn === 'No').length;
+  var churnNoPercentageGen = ((churnNoCountGen / totalCustomers) * 100).toFixed(2) + '%';
+  // add percentages of churnNoPercentage into churnNoPercentageGen together
+  churnNoPercentageGen = (parseFloat(churnNoPercentageGen) + parseFloat(churnNoPercentage)).toFixed(2) + '%' + '(' + churnNoPercentageGen + ')';
+
   // Calculate the total revenue
-  var totalRevenue = plot1Data.reduce((total, customer) => total + customer.total_charges, 0).toFixed(2);
+  var totalRevenue = dataDictArr.reduce((total, customer) => total + customer.total_charges, 0).toFixed(2);
+
+  // Calculate the total revenue from the generated data combined with the original data
+  var totalRevenueGen = jsonGenData.reduce((total, customer) => total + customer.total_charges, 0).toFixed(2);
+
+  // Calculate the percentage differnce between the total revenue from the generated data combined with the original data and the original data
+  var percentageChange = (totalRevenueGen * 100 / totalRevenue);
 
   // Get the table row to update
   var tableRow = document.getElementById('attrition-table-body').getElementsByTagName('tr')[0];
@@ -245,9 +277,10 @@ const plotData = async () => {
   // Update the cells with the calculated values
   tableRow.cells[0].textContent = totalCustomers;
   tableRow.cells[1].textContent = churnNoPercentage;
+  tableRow.cells[2].textContent = churnNoPercentageGen;
   tableRow.cells[3].textContent = '$' + totalRevenue;
-
-
+  tableRow.cells[4].textContent = percentageChange.toFixed(2) + '%';
+  tableRow.cells[5].textContent = '$' + totalRevenueGen;
 
 }
 
