@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Forecasting & Analyzing Customer Attrition - Benny, Luis, Michelle, and Rachael</title>
+    <link rel="stylesheet" href="formatting.css">
+
+    <!-- scripts for javascript portion: -->
+    <script type="module" src="./script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htl@0.3.1/dist/htl.min.js"></script>
+    <script src="./setup/d3.js"></script>
+    <script src="./setup/plot.js"></script>
+
+</head>
+
+<body>
+
+<!-- title section -->
+<div class="title-container">
+    <h1>What the Buddha Telecom Company</h1>
+    <h2>Forecasting and Analyzing Customer Attrition</h2>
+</div>
+
+<!-- dropdown section -->
+<div class="container">
+    <div class="dropdown">
+      <select id="contract-dropdown">
+        <option value="" id="month-to-month">Month to Month</option>
+        <option value="" id="1year">1 Year Contract</option>
+        <option value="" id="2years">2 Year Contract</option>
+        <option value="" id="all-contracts">All</option>
+      </select>
+    </div>
+  </div>
+  
+
+<!-- bar and scatter plot section -->
+<div class="new-container">
+    <div id="plot1"><h1>Plot 1 here</h1></div>
+    <div id="plot2"><h1>Plot 2 here</h1></div>
+    <div id="plot3"><h1>Plot 3 here</h1></div>
+    <div id="plot4"><h1>Plot 4 here</h1></div>
+</div>
+
+<!-- table section -->
+<div class="table-container">
+    <table border="1" id="attrition-table">
+        <caption>Customer Attrition Snapshot</caption>
+        <thead>
+            <tr>
+                <th>Total # of Customers</th>
+                <th>Attrition Rate (%)</th>
+                <th>Predicted Attrition Rate (%)</th>
+                <th>Total Revenue</th>
+                <th>Revenue Change (%)</th>
+                <th>Predicted Revenue</th>
+            </tr>
+        </thead>
+        <tbody id="attrition-table-body">
+            <tr>
+                <td>A bunch</td>
+                <td>30%</td>
+                <td>33%</td>
+                <td>$1M </td>
+                <td>.0005%</td>
+                <td>$5M</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+</html>
