@@ -2,6 +2,9 @@
 
 ## Overview
 Welcome to our Project 4! In this project, we aim to solve the critical business problem of predicting customer attrition. Customer churn can significantly impact a company's revenue, making it imperative to understand the factors contributing to attrition and build a predictive model for proactive retention strategies.
+---
+![mainpage](https://github.com/bgrullon/Attrition-forecasting/assets/45550119/05a8cb64-fdb2-4e29-b86b-0f69242f91e2)
+---
 
 ### Problem Statement
 Customer Attrition Prediction is a vital task for businesses across industries. Our project focuses on leveraging machine learning to analyze and predict customer churn, providing actionable insights for businesses to retain valuable customers.
@@ -12,6 +15,8 @@ Our project is powered by a diverse set of technologies and libraries, demonstra
 **Machine Learning Library:**
 - [Scikit-learn](https://scikit-learn.org/): Utilized for implementing various machine learning algorithms.
 
+![manualtessting](https://github.com/bgrullon/Attrition-forecasting/assets/45550119/de9033eb-bd33-4523-b14a-fb984b9d5612)
+
 **Data Manipulation and Analysis:**
 - [Python Pandas](https://pandas.pydata.org/): Employed for efficient data manipulation.
 
@@ -19,11 +24,16 @@ Our project is powered by a diverse set of technologies and libraries, demonstra
 - [Matplotlib](https://matplotlib.org/): Used for creating insightful visualizations.
 - [JavaScript Plotly](https://plotly.com/javascript/): Integrated for interactive visualizations.
 
+---
+![topgraph](https://github.com/bgrullon/Attrition-forecasting/assets/45550119/c5247c77-9b2f-4e7f-8cc2-10f87f4bdfd2)
+![bottomgraph](https://github.com/bgrullon/Attrition-forecasting/assets/45550119/e5d1034c-d2bf-4ee1-93ae-c3f9fa789ac9)
+---
+
 **Web Interface:**
-- HTML/CSS/Bootstrap: Utilized for building an interactive web interface.
+- HTML/CSS/Javscript: Utilized for building an interactive web interface.
 
 **Database:**
-- [SQLite](https://www.sqlite.org/): Employed for dataset storage and management.
+- [Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/welcome.html): Employed for dataset storage and management.
 
 **PreReqs**
 - Install [Terraform](https://developer.hashicorp.com/terraform/install?product_intent=terraform)
