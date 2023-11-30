@@ -2,3 +2,7 @@ flask
 pandas
 boto3
 psycopg2-binary
+flask_cors
+python-dotenv
+scikit-learn
+tensorflow
